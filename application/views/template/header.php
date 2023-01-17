@@ -11,19 +11,20 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/datatables.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/select2/css/select2.min.css">
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar no-touch nk-nio-theme">
     <div class="main-wrapper">
         <div class="header header-one">
             <div class="header-left header-left-one">
-                <a href="index.html" class="logo">
+                <a href="<?= base_url('dashboard') ?>" class="logo">
                     <img src="<?= base_url() ?>assets/img/favicon.png" alt="Logo">
                 </a>
-                <a href="index.html" class="white-logo">
+                <a href="<?= base_url('dashboard') ?>" class="white-logo">
                     <img src="<?= base_url() ?>assets/img/favicon.png" alt="Logo">
                 </a>
-                <a href="index.html" class="logo logo-small">
+                <a href="<?= base_url('dashboard') ?>" class="logo logo-small">
                     <img src="<?= base_url() ?>assets/img/favicon.png" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -43,7 +44,8 @@
                         <span>Admin</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="login.html"><i data-feather="log-out" class="me-1"></i>
+                        <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i data-feather="log-out"
+                                class="me-1"></i>
                             Logout</a>
                     </div>
                 </li>
@@ -55,19 +57,38 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="menu-title"><span>Main</span></li>
+                        <?php
+                        $role_id = $this->session->userdata('role_id');
+                        $queryMenu = "SELECT `user_menu`.`id`, `menu`,`icon`
+                                FROM `user_menu` JOIN `user_access_menu`
+                                    ON `user_menu`.`id` = `user_access_menu`.`menu_id`
+                                WHERE `user_access_menu`.`role_id` = $role_id
+                                ORDER BY `user_access_menu`.`menu_id` ASC
+                ";
+                        $menu = $this->db->query($queryMenu)->result_array();
+                        ?>
+                        <?php
+                        foreach ($menu as $m) :
+                        ?>
                         <li class="submenu">
-                            <a href="#"><i data-feather="home"></i> <span> Dashboard</span> <span
-                                    class="menu-arrow"></span></a>
+                            <a href="<?= base_url() . $m['menu'] ?>"><i data-feather="<?= $m['icon'] ?>"></i> <span>
+                                    <?= $m['menu']; ?></span> <span class="menu-arrow"></span></a>
+                            <?php
+                                $menuId = $m['id'];
+                                $querySubMenu = "SELECT *
+                        FROM `user_submenu` JOIN `user_menu`
+                            ON `user_submenu`.`menu_id` = `user_menu`.`id`
+                        WHERE `user_submenu`.`menu_id` = $menuId
+                        AND `user_submenu`.`is_active` = 1";
+                                $subMenu = $this->db->query($querySubMenu)->result_array();
+                                ?>
                             <ul>
-                                <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>
-                            </ul>
-                        <li class="submenu">
-                            <a href="#"><i data-feather="list"></i> <span> Menu</span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="<?= base_url('menu') ?>">Menu Management</a></li>
+                                <?php foreach ($subMenu as $sm) : ?>
+                                <li><a href="<?= base_url() . $sm['url'] ?>"><?= $sm['submenu']; ?></a></li>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
+                        <?php endforeach; ?>
 
                     </ul>
 

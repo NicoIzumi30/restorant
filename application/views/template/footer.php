@@ -11,6 +11,8 @@
 <script src="<?= base_url() ?>assets/js/script123.js"></script>
 <script src="<?= base_url() ?>assets/plugins/toastr/toastr.min.js"></script>
 <script src="<?= base_url() ?>assets/plugins/toastr/toastr.js"></script>
+<script src="<?= base_url() ?>assets/plugins/select2/js/select2.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/select2/js/custom-select.js"></script>
 </body>
 
 </html>
