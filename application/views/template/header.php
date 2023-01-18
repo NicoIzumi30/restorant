@@ -19,7 +19,7 @@
         <div class="header header-one">
             <div class="header-left header-left-one">
                 <a href="<?= base_url('dashboard') ?>" class="logo">
-                    <img src="<?= base_url() ?>assets/img/favicon.png" alt="Logo">
+                    <img src="<?= base_url() ?>assets/img/text.png" alt="Logo">
                 </a>
                 <a href="<?= base_url('dashboard') ?>" class="white-logo">
                     <img src="<?= base_url() ?>assets/img/favicon.png" alt="Logo">
@@ -44,8 +44,7 @@
                         <span>Admin</span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i data-feather="log-out"
-                                class="me-1"></i>
+                        <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i data-feather="log-out" class="me-1"></i>
                             Logout</a>
                     </div>
                 </li>
@@ -70,10 +69,10 @@
                         <?php
                         foreach ($menu as $m) :
                         ?>
-                        <li class="submenu">
-                            <a href="<?= base_url() . $m['menu'] ?>"><i data-feather="<?= $m['icon'] ?>"></i> <span>
-                                    <?= $m['menu']; ?></span> <span class="menu-arrow"></span></a>
-                            <?php
+                            <li class="submenu">
+                                <a href="<?= base_url() . $m['menu'] ?>"><i data-feather="<?= $m['icon'] ?>"></i> <span>
+                                        <?= $m['menu']; ?></span> <span class="menu-arrow"></span></a>
+                                <?php
                                 $menuId = $m['id'];
                                 $querySubMenu = "SELECT *
                         FROM `user_submenu` JOIN `user_menu`
@@ -82,12 +81,12 @@
                         AND `user_submenu`.`is_active` = 1";
                                 $subMenu = $this->db->query($querySubMenu)->result_array();
                                 ?>
-                            <ul>
-                                <?php foreach ($subMenu as $sm) : ?>
-                                <li><a href="<?= base_url() . $sm['url'] ?>"><?= $sm['submenu']; ?></a></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
+                                <ul>
+                                    <?php foreach ($subMenu as $sm) : ?>
+                                        <li><a href="<?= base_url() . $sm['url'] ?>"><?= $sm['submenu']; ?></a></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
                         <?php endforeach; ?>
 
                     </ul>
